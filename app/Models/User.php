@@ -2,47 +2,50 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
+        'surname',
+        'birthday',
         'email',
         'password',
+        'role_id', // Relación con roles
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    // Relación con el modelo Role
+    public function role()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    // Métodos para verificar roles
+    public function isAdmin()
+    {
+        return $this->role_id === Role::ADMIN;
+    }
+
+    public function isUser()
+    {
+        return $this->role_id === Role::USER;
+    }
+    
+    public function crews()
+    {
+        return $this->belongsToMany(Crew::class, 'user_crews')->withPivot('year', 'confirmed')->withTimestamps();
+    }
+
+    // Obtener la peña confirmada del usuario
+    public function confirmedCrew()
+    {
+        return $this->crews()->wherePivot('confirmed', true)->first();
     }
 }
+

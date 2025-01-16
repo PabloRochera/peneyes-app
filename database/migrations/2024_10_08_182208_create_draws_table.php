@@ -11,21 +11,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('draws', function (Blueprint $table) {
             $table->id();
-            $table->integer('x_coordinate');
-            $table->integer('y_coordinate');
-            $table->year('year');
+            $table->foreignId('crew_id')->constrained()->onDelete('cascade');
+            $table->foreignId('location_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('draws');
     }
 };

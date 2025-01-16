@@ -9,17 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('crews', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('surname');
-            $table->string('email')->unique();
-            $table->date('birthday');
-            $table->string('password');
+            $table->string('color');
+            $table->string('slogan')->nullable(); // El slogan es opcional
+            $table->integer('capacity');
+            $table->date('foundation');
             $table->timestamps();
-            $table->string('role')->default('Plain User'); //columna para indicar el rol del usuario (por defecto Plain User)
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('crews');
     }
 };
