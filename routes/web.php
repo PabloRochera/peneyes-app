@@ -27,8 +27,8 @@ Route::get('/log', function () {
     if (Auth::check()) {
         $role = Auth::user()->role_id;
         return $role == 1
-            ? redirect()->route('back.backHome') // Back Office
-            : redirect()->route('front.frontHome'); // Front Office
+            ? redirect()->route('back.backHome') 
+            : redirect()->route('front.frontHome'); 
     }
     return redirect()->route('login');
 })->name('log');
