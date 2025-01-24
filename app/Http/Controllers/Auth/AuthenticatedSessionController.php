@@ -18,7 +18,14 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
-
+    
+    protected function authenticated(Request $request, $user)
+    {
+        return $user->role_id == 1
+            ? redirect()->route('back.backHome')
+            : redirect()->route('front.frontHome');
+    }
+    
     /**
      * Handle an incoming authentication request.
      */
