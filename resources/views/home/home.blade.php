@@ -30,11 +30,8 @@
     </div>
 </nav>
 <header class="relative bg-blue-900 text-white">
-    <div class="relative w-full h-[600px] overflow-hidden">
-        <!-- Imagen ajustada para ocupar todo el espacio -->
-        <img src="https://files.oaiusercontent.com/file-Q3CbUzCmRKMb6sQEDvdwJq?se=2025-01-24T15%3A42%3A42Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3De8e1d63e-714b-4e2a-a050-d7fd53573838.webp&sig=ivDUNNclBAVkECNTy9sTs99Ii5onfLJuLpP54oOZvY4%3D" 
-             class="absolute inset-0 w-full h-full object-cover object-center">
-
+    <div class="relative w-full h-[600px] overflow-hidden" style="background-image: url('{{ asset('/pagehome.png') }}');">
+        
         <!-- Fondo semitransparente para contraste -->
         <div class="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-800 to-transparent opacity-70"></div>
 

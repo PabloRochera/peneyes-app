@@ -18,14 +18,7 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
-    
-    protected function authenticated(Request $request, $user)
-    {
-        return $user->role_id == 1
-            ? redirect()->route('back.backHome')
-            : redirect()->route('front.frontHome');
-    }
-    
+
     /**
      * Handle an incoming authentication request.
      */
@@ -35,7 +28,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Redirigir según el rol del usuario
+        $user = Auth::user();
+        if ($user->role_id == 1) { // Cambia 'role_id == 1' por la lógica de roles de tu aplicación
+            return redirect()->route('back.backHome'); // Redirigir al backend
+        }
+
+        return redirect()->route('front.frontHome'); // Redirigir al frontend
     }
 
     /**

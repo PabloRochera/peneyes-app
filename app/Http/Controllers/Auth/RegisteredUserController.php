@@ -31,20 +31,29 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
+    
+        // Crear el usuario
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+    
+        // Disparar el evento de registro
         event(new Registered($user));
-
+    
+        // Iniciar sesión del usuario automáticamente
         Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+    
+        // Redirigir según la lógica deseada
+        if ($user->is_admin) { // Reemplaza 'is_admin' con la lógica de tu aplicación
+            return redirect()->route('dashboard'); // Redirigir al backend
+        }
+    
+        return redirect()->route('front'); // Redirigir al frontend
     }
+    
 }
