@@ -15,6 +15,7 @@
             <h1 class="text-2xl font-semibold text-gray-800 text-center mb-6">Create Your Account</h1>
             <form method="POST" action="/register">
                 <!-- Name -->
+                @csrf
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                     <input id="name" class="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500 text-sm" type="text" name="name" required autofocus autocomplete="name" />

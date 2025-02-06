@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('birthday');
             $table->string('password');
             $table->timestamps();
-            $table->string('role')->default('Plain User'); //columna para indicar el rol del usuario (por defecto Plain User)
+            $table->string('role')->default('2');
         });
     }
 

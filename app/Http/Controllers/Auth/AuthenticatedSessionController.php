@@ -19,6 +19,7 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
+
     /**
      * Handle an incoming authentication request.
      */
@@ -30,11 +31,12 @@ class AuthenticatedSessionController extends Controller
 
         // Redirigir según el rol del usuario
         $user = Auth::user();
+
         if ($user->role_id == 1) { // Cambia 'role_id == 1' por la lógica de roles de tu aplicación
-            return redirect()->route('back.backHome'); // Redirigir al backend
+            return redirect()->route('backOffice'); // Redirigir al backend
         }
 
-        return redirect()->route('front.frontHome'); // Redirigir al frontend
+        return redirect()->route('frontOffice'); // Redirigir al frontend
     }
 
     /**

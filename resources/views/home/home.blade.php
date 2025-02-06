@@ -123,7 +123,7 @@
 </section>
 
 <!-- Contact Section -->
-<section id="contact" class="py-16 bg-gradient-to-b from-gray-100 to-gray-200">
+<section id="contact" class="py-16 bg-gradient-to-b from-gray-100 to-gray-200"> 
     <div class="container mx-auto px-6">
         <h2 class="text-5xl font-extrabold text-blue-700 mb-12 text-center drop-shadow-lg">
             Contacta'ns
@@ -132,7 +132,8 @@
             <h3 class="text-3xl font-bold text-blue-700 mb-6 text-center">
                 Envia'ns un Missatge
             </h3>
-            <form action="#" method="POST" class="space-y-6">
+            <form action="{{ route('contact.send') }}" method="POST" class="space-y-6">
+                @csrf
                 <div>
                     <label for="nom" class="block text-lg font-medium text-gray-700">Nom</label>
                     <input type="text" id="nom" name="nom" placeholder="El teu nom" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
@@ -149,6 +150,21 @@
                     Enviar
                 </button>
             </form>
+            <!-- Muestra mensajes de éxito o error -->
+            @if(session('success'))
+                <div class="mt-4 text-green-600">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if($errors->any())
+                <div class="mt-4 text-red-600">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </div>
 </section>
@@ -160,19 +176,20 @@
             Ubicació
         </h2>
         <div class="bg-white p-8 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-500 transform hover:scale-105">
-            <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.9163901380086!2d-0.12573568467674838!3d51.50853057963678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761b334d4d52f1%3A0x2b4a5c24824d0e24!2sTrafalgar%20Square%2C%20London!5e0!3m2!1sen!2suk!4v1688412341234!5m2!1sen!2suk" 
-                width="100%" 
-                height="400" 
-                class="rounded-lg shadow-md" 
-                allowfullscreen="" 
-                loading="lazy" 
-                referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-            <p class="text-gray-600 mt-6 text-center text-lg">
-                Ens pots trobar a Plaza Paz, 5, 12600, Castellón
-            </p>
-        </div>
+    <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3112.053345795482!2d-0.2742489!3d39.0046657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a5201c4976a45d%3A0x57b1d0c74f5a2e8f!2sVall%20d'Uix%C3%B3%2C%20Castell%C3%B3!5e0!3m2!1ses!2ses!4v1688412345678!5m2!1ses!2ses" 
+        width="100%" 
+        height="400" 
+        class="rounded-lg shadow-md" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <p class="text-gray-600 mt-6 text-center text-lg">
+        Ens pots trobar a la Vall d'Uixó, Castellón
+    </p>
+</div>
+
     </div>
 </section>
 
