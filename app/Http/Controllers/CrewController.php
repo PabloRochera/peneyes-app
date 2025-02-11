@@ -49,7 +49,12 @@ class CrewController extends Controller
         $crew->update($request->all());
         return redirect()->route('crews.index')->with('success', 'Crew actualizado correctamente');
     }
-
+    public function showCrews()
+    {
+        $crews = Crew::all();
+        return view('front.crews.show', compact('crews'));
+    }
+    
     // Eliminar un crew
     public function destroy($id)
     {

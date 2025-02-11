@@ -4,10 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateLocationsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up()
     {
@@ -15,17 +17,21 @@ return new class extends Migration
             $table->id();
             $table->integer('x_coordinate');
             $table->integer('y_coordinate');
-            $table->year('year');
+            $table->unsignedBigInteger('crew_id');
+            $table->integer('year');
             $table->timestamps();
+
+            $table->foreign('crew_id')->references('id')->on('crews')->onDelete('cascade');
         });
     }
 
-
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('locations');
     }
-};
+}

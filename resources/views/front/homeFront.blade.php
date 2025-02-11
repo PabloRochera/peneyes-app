@@ -1,22 +1,36 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Front Office - Home</title>
+    <title>Panel de Control</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1; /* Se asegura de ocupar el espacio disponible */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
     <!-- Header -->
-    <header class="bg-blue-600 text-white py-4">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Bienvenido</h1>
-            <nav>
-                <a href="#penyes" class="mr-4 hover:underline">Llista de Penyes</a>
-                <a href="{{ route('profile.edit') }}" class="hover:underline">Perfil d'Usuari</a>
+    <header class="bg-blue-700 text-white py-4 shadow-md">
+        <div class="container mx-auto max-w-screen-lg px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Peñes la Vall</h1>
+            <nav class="flex space-x-4 items-center">
+                <a href="/logout" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition ml-4">Cerrar Sesión</a>
             </nav>
         </div>
     </header>
+
 
     <!-- Sección de Lista de Penyes -->
     <section id="penyes" class="container mx-auto px-4 py-8">
@@ -34,27 +48,7 @@
         </ul>
     </section>
 
-    <!-- Sección de Sorteo -->
-    <section id="sorteig" class="container mx-auto px-4 py-8">
-        <h2 class="text-xl font-semibold mb-4">Sorteig</h2>
-        <div class="bg-white p-4 rounded-lg shadow-md text-center">
-            <p class="mb-4">Prem sobre el botó per realitzar el sorteig.</p>
-         
-        </div>
-        <!-- Resultados del Sorteo -->
-        @if(count($draws))
-            <h3 class="text-lg font-semibold mt-6">Resultats del Sorteig</h3>
-            <ul class="bg-white p-4 rounded-lg shadow-md mt-4">
-                @foreach($draws as $draw)
-                    <li class="border-b last:border-b-0 py-2 px-4">
-                        <p><strong>Peña:</strong> {{ $draw->crew->name }}</p>
-                        <p><strong>Localització:</strong> {{ $draw->location_id }}</p>
-                        <p><strong>Data:</strong> {{ $draw->created_at }}</p>
-                    </li>
-                @endforeach
-            </ul>
-        @endif
-    </section>
+    
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-4">

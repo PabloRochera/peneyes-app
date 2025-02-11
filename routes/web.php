@@ -12,6 +12,7 @@ use App\Http\Middleware\CheckRole;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\CrewController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DrawController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -99,8 +100,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix('back')->group(function () {
         Route::resource('crews', CrewController::class);
         Route::resource('users', UserController::class);
+        Route::resource('draws', DrawController::class);
     });
 
+Route::get('/draws', [DrawController::class, 'index'])->name('draw.index');
+Route::post('/draws/regenerate', [DrawController::class, 'draw'])->name('draw.regenerate');
+Route::get('/draws/{year}', [DrawController::class, 'show'])->name('draw.show');
 
 Route::get('/back/home', [BackController::class, 'index'])->name('backOffice');
 Route::get('/front/home', [FrontController::class, 'index'])->name('frontOffice');
