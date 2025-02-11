@@ -11,10 +11,16 @@ class CrewController extends Controller
     public function index()
     {
         $crews = Crew::all();
-        return response()->json($crews);
+        return view('back.crews.index', compact('crews'));
     }
 
-    // Crear un nuevo crew
+    // Mostrar formulario para crear un nuevo crew
+    public function create()
+    {
+        return view('back.crews.create');
+    }
+
+    // Guardar un nuevo crew
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -25,25 +31,23 @@ class CrewController extends Controller
             'foundation' => 'required|date',
         ]);
 
-        $crew = Crew::create($validated);
-        return response()->json($crew, 201);
+        Crew::create($validated);
+        return redirect()->route('crews.index')->with('success', 'Crew creado correctamente');
     }
 
-    // Actualizar un crew existente
+    // Mostrar formulario para editar un crew existente
+    public function edit($id)
+    {
+        $crew = Crew::findOrFail($id);
+        return view('back.crews.edit', compact('crew'));
+    }
+
+    // Actualizar un crew
     public function update(Request $request, $id)
     {
         $crew = Crew::findOrFail($id);
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'color' => 'required|string|max:255',
-            'slogan' => 'required|string|max:255',
-            'capacity' => 'required|integer',
-            'foundation' => 'required|date',
-        ]);
-
-        $crew->update($validated);
-        return response()->json($crew);
+        $crew->update($request->all());
+        return redirect()->route('crews.index')->with('success', 'Crew actualizado correctamente');
     }
 
     // Eliminar un crew
@@ -51,6 +55,6 @@ class CrewController extends Controller
     {
         $crew = Crew::findOrFail($id);
         $crew->delete();
-        return response()->json(null, 204);
+        return redirect()->route('crews.index')->with('success', 'Crew eliminado correctamente');
     }
 }

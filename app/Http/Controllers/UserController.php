@@ -11,33 +11,45 @@ class UserController extends Controller
     // Listar todos los usuarios
     public function index()
     {
-        // Obtener todos los usuarios de la base de datos
         $users = User::all();
-        return response()->json($users);
+        return view('back.users.index', compact('users'));
     }
 
-    // Crear un nuevo usuario
+    // Mostrar formulario para crear un nuevo usuario
+    public function create()
+    {
+        return view('back.users.create');
+    }
+
+    // Guardar un nuevo usuario
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'surname' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'birthday' => 'required|date',
-        'password' => 'required|string|min:8',
-    ]);
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'birthday' => 'required|date',
+            'password' => 'required|string|min:8',
+        ]);
 
-    $user = User::create([
-        'name' => $validated['name'],
-        'surname' => $validated['surname'],
-        'email' => $validated['email'],
-        'birthday' => $validated['birthday'],
-        'password' => Hash::make($validated['password']),
-        'role_id' => 2, // Valor por defecto para usuarios estándar
-    ]);
+        User::create([
+            'name' => $validated['name'],
+            'surname' => $validated['surname'],
+            'email' => $validated['email'],
+            'birthday' => $validated['birthday'],
+            'password' => Hash::make($validated['password']),
+            'role_id' => 2, // Valor por defecto para usuarios estándar
+        ]);
 
-    return response()->json($user, 201);
-}
+        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente');
+    }
+
+    // Mostrar formulario para editar un usuario existente
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('back.users.edit', compact('user'));
+    }
 
     // Actualizar un usuario existente
     public function update(Request $request, $id)
@@ -49,16 +61,17 @@ class UserController extends Controller
             'surname' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
             'birthday' => 'sometimes|required|date',
-            'password' => 'sometimes|required|string|min:8',
-            'role' => 'sometimes|required|string|max:255',
+            'password' => 'sometimes|nullable|string|min:8',
         ]);
 
-        if (isset($validated['password'])) {
+        if (!empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']); // No actualizar si no se envió una nueva contraseña
         }
 
         $user->update($validated);
-        return response()->json($user);
+        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente');
     }
 
     // Eliminar un usuario
@@ -66,6 +79,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return response()->json(null, 204);
+        return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente');
     }
 }

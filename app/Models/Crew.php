@@ -10,10 +10,6 @@ class Crew extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'color',
-        'slogan',
-        'capacity',
-        'foundation',
+        'name', 'color', 'slogan', 'capacity', 'foundation'
     ];
 }

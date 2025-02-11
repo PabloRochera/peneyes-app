@@ -95,16 +95,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-    // Rutas para operaciones CRUD de Crews (sin duplicar)
-    Route::get('/crews', [CrewController::class, 'index']);
-    Route::post('/crews', [CrewController::class, 'store']);
-    Route::put('/crews/{id}', [CrewController::class, 'update']);
-    Route::delete('/crews/{id}', [CrewController::class, 'destroy']);
-// });
 
-// Rutas para front (usuarios normales)
-// Route::middleware(['auth', 'role:2'])->group(function () {
-// });
+    Route::prefix('back')->group(function () {
+        Route::resource('crews', CrewController::class);
+        Route::resource('users', UserController::class);
+    });
+
 
 Route::get('/back/home', [BackController::class, 'index'])->name('backOffice');
 Route::get('/front/home', [FrontController::class, 'index'])->name('frontOffice');
