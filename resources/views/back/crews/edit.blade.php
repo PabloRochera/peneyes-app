@@ -1,39 +1,36 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Crew</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <h2 class="mb-4 text-center">Editar Crew</h2>
-        <form action="{{ route('crews.update', $crew->id) }}" method="POST" class="bg-white p-4 shadow-sm">
+@include('back.partials.head-back')
+
+<body class="bg-gray-100">
+@include('back.partials.header-back')
+    <div class="container mx-auto mt-10">
+        <h2 class="text-3xl font-bold mb-6 text-center uppercase">Editar Crew</h2>
+        <form action="{{ route('crews.update', $crew->id) }}" method="POST" class="bg-white p-8 shadow-md rounded-lg">
             @csrf
             @method('PUT')
-            <div class="mb-3">
-                <label class="form-label">Nombre:</label>
-                <input type="text" name="name" class="form-control" value="{{ $crew->name }}" required>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
+                <input type="text" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $crew->name }}" required>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Color:</label>
-                <input type="color" name="color" class="form-control" value="{{ $crew->color }}" required>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Color:</label>
+                <input type="color" name="color" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $crew->color }}" required>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Slogan:</label>
-                <input type="text" name="slogan" class="form-control" value="{{ $crew->slogan }}" required>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Slogan:</label>
+                <input type="text" name="slogan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $crew->slogan }}" required>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Capacidad:</label>
-                <input type="number" name="capacity" class="form-control" value="{{ $crew->capacity }}" required>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Capacidad:</label>
+                <input type="number" name="capacity" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $crew->capacity }}" required>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Fundación:</label>
-                <input type="date" name="foundation" class="form-control" value="{{ $crew->foundation }}" required>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Fundación:</label>
+                <input type="date" name="foundation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $crew->foundation }}" required>
             </div>
-            <button type="submit" class="btn btn-warning">Actualizar</button>
-            <a href="{{ route('crews.index') }}" class="btn btn-secondary">Cancelar</a>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M18.381 5.354a.75.75 0 0 1 .265 1.027l-7.087 12a.75.75 0 0 1-1.164.16L5.48 13.838a.75.75 0 0 1 1.038-1.084l4.23 4.051L17.353 5.62a.75.75 0 0 1 1.027-.265" clip-rule="evenodd"/></svg></button>
+                <a href="{{ route('crews.index') }}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M8 5a.53.53 0 0 0-.431.222l-3.923 5.486a1.64 1.64 0 0 0-.047 1.839L7.58 18.77A.5.5 0 0 0 8 19h11.359c.906 0 1.641-.735 1.641-1.641V6.64C21 5.735 20.265 5 19.359 5zm1.646 3.146a.5.5 0 0 1 .708 0l3.127 3.128l3.094-3.126a.5.5 0 0 1 .71.704l-3.097 3.129l3.166 3.165a.5.5 0 0 1-.708.708l-3.162-3.163l-3.129 3.16a.5.5 0 0 1-.71-.703l3.132-3.164l-3.13-3.13a.5.5 0 0 1 0-.708" clip-rule="evenodd"/></svg></a>
+            </div>
         </form>
     </div>
 </body>
