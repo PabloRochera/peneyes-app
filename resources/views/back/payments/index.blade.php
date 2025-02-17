@@ -1,7 +1,7 @@
 @include('back.partials.head-back')
 @include('back.partials.header-back')
 
-@section('content')
+
 <div class="container mx-auto p-6">
     <div class="bg-white shadow-lg rounded-lg p-6">
         <h2 class="text-2xl font-bold mb-4">Gestión de Pagos</h2>
@@ -53,12 +53,12 @@
                         <td class="px-4 py-2">${{ number_format($pago->monto, 2) }}</td>
                         <td class="px-4 py-2">{{ $pago->metodo }}</td>
                         <td class="px-4 py-2">{{ $pago->fecha }}</td>
-                        <td class="px-4 py-2">
-                            <a href="{{ route('pagos.edit', $pago->id) }}" class="text-blue-500">Editar</a>
+                        <td class="px-4 py-2 flex space-x-2">
+                            <a href="{{ route('pagos.edit', $pago->id) }}" class="text-blue-500 hover:underline">Editar</a>
                             <form action="{{ route('pagos.destroy', $pago->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-500 ml-2">Eliminar</button>
+                                <button type="submit" class="text-red-500 hover:underline">Eliminar</button>
                             </form>
                         </td>
                     </tr>
@@ -68,4 +68,3 @@
         </div>
     </div>
 </div>
-@endsection

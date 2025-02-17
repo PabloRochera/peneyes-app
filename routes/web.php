@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\PaymentController;
 
 
 // Página principal - Siempre muestra home.blade.php
@@ -96,12 +97,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-
     Route::prefix('back')->group(function () {
         Route::resource('crews', CrewController::class);
         Route::resource('users', UserController::class);
         Route::resource('draws', DrawController::class);
     });
+
+Route::resource('pagos', PaymentController::class);
 
 Route::get('/draws', [DrawController::class, 'index'])->name('draw.index');
 Route::post('/draws/regenerate', [DrawController::class, 'draw'])->name('draw.regenerate');
@@ -109,9 +111,9 @@ Route::get('/draws/{year}', [DrawController::class, 'show'])->name('draw.show');
 
 Route::get('/back/home', [BackController::class, 'index'])->name('backOffice');
 Route::get('/front/home', [FrontController::class, 'index'])->name('frontOffice');
+Route::get('/crews', [CrewController::class, 'showCrews'])->name('crews.show');
 
-
-Route::post('/contact', [ContactController::class, 'sendMessage'])->name('contact.send');
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 
 Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])

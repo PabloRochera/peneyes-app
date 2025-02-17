@@ -12,7 +12,7 @@
             min-height: 100vh;
         }
         main {
-            flex: 1; /* Se asegura de ocupar el espacio disponible */
+            flex: 1; 
             display: flex;
             justify-content: center;
             align-items: center;
