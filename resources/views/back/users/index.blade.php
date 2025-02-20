@@ -70,8 +70,41 @@
             </svg>
             <span>Agregar Usuario</span>
         </a>
-    </div>
 
+        <!-- Solicitudes de membresía -->
+        <div class="content is-medium mt-5">
+            <h2 class="title is-4">Solicitudes de Membresía</h2>
+            @if($membershipRequests->isEmpty())
+                <p>No hay solicitudes de membresía pendientes.</p>
+            @else
+                <table class="table is-fullwidth is-striped">
+                    <thead>
+                        <tr>
+                            <th>Peña</th>
+                            <th>Año</th>
+                            <th>Usuario</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($membershipRequests as $request)
+                            <tr>
+                                <td>{{ $request->crew->name }}</td>
+                                <td>{{ $request->year }}</td>
+                                <td>{{ $request->user->name }} {{ $request->user->surname }}</td>
+                                <td>
+                                    <form method="POST" action="{{ route('back.memberships.confirm', ['crew' => $request->crew->id, 'user' => $request->user->id]) }}">
+                                        @csrf
+                                        <button type="submit" class="button is-primary">Confirmar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
+        </div>
+    </div>
     <script>
         document.getElementById('search').addEventListener('keyup', function() {
             var value = this.value.toLowerCase();

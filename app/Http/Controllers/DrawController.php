@@ -68,10 +68,13 @@ class DrawController extends Controller
             while (!$isValidCoord) {
                 $x = rand(0, (self::MAX_WIDTH - 1));
                 $y = rand(0, (self::MAX_HEIGHT - 1));
-                $coord = [$x, $y];
-                $isValidCoord = $this->isValidCoord($coord, $places);
-                if ($isValidCoord) {
-                    $places[$crewId] = $coord;
+                // Solo permitir coordenadas en los bordes
+                if ($x == 0 || $x == self::MAX_WIDTH - 1 || $y == 0 || $y == self::MAX_HEIGHT - 1) {
+                    $coord = [$x, $y];
+                    $isValidCoord = $this->isValidCoord($coord, $places);
+                    if ($isValidCoord) {
+                        $places[$crewId] = $coord;
+                    }
                 }
             }
         }

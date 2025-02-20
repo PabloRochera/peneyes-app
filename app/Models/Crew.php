@@ -12,4 +12,9 @@ class Crew extends Model
     protected $fillable = [
         'name', 'color', 'slogan', 'capacity', 'foundation'
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_crews')->withPivot('confirmed');
+    }
 }

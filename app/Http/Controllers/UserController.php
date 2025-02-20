@@ -5,14 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\UserCrew;
 
 class UserController extends Controller
 {
-    // Listar todos los usuarios
+    // Listar todos los usuarios junto con las solicitudes de membresía pendientes
     public function index()
     {
         $users = User::all();
-        return view('back.users.index', compact('users'));
+        $membershipRequests = UserCrew::with(['user','crew'])
+                                      ->where('confirmed', false)
+                                      ->get();
+
+        return view('back.users.index', compact('users','membershipRequests'));
     }
 
     // Mostrar formulario para crear un nuevo usuario

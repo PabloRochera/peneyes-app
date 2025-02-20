@@ -10,16 +10,20 @@
         <div class="grid grid-cols-{{ $maxWidth }} gap-2">
             @for ($row = 0; $row < $maxHeight; $row++)
                 @for ($col = 0; $col < $maxWidth; $col++)
-                    <div class="cell border border-gray-400 flex items-center justify-center h-16 w-16">
-                        @php
-                        $cell = $locations->first(function($location) use ($col, $row) {
-                            return $location->x_coordinate === $col && $location->y_coordinate === $row;
-                        });
-                        @endphp
-                        @if($cell)
-                            <p class="text-sm">{{ $cell->crew->name }}</p>
-                        @endif
-                    </div>
+                    @if($row == 0 || $row == $maxHeight - 1 || $col == 0 || $col == $maxWidth - 1)
+                        <div class="cell border border-gray-400 flex items-center justify-center h-16 w-16">
+                            @php
+                            $cell = $locations->first(function($location) use ($col, $row) {
+                                return $location->x_coordinate === $col && $location->y_coordinate === $row;
+                            });
+                            @endphp
+                            @if($cell)
+                                <p class="text-sm">{{ $cell->crew->name }}</p>
+                            @endif
+                        </div>
+                    @else
+                        <div class="cell border border-gray-400 flex items-center justify-center h-16 w-16 bg-gray-200"></div>
+                    @endif
                 @endfor
             @endfor
         </div>

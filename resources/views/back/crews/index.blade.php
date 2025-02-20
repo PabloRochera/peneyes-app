@@ -37,6 +37,7 @@
                             <td class="py-3 px-4">{{ $crew->capacity }}</td>
                             <td class="py-3 px-4">{{ $crew->foundation }}</td>
                             <td class="py-3 px-4 flex space-x-4">
+                            
                                 <a href="{{ route('crews.edit', $crew->id) }}" class="text-blue-500 hover:text-blue-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20">
                                         <path fill="currentColor" d="m2.292 13.36l4.523 4.756L.5 20zM12.705 2.412l4.522 4.755L7.266 17.64l-4.523-4.754zM16.142.348l2.976 3.129c.807.848.086 1.613.086 1.613l-1.521 1.6l-4.524-4.757L14.68.334l.02-.019c.119-.112.776-.668 1.443.033"/>

@@ -20,6 +20,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\UserCrewController; // Se actualiza la importación (remover Front\)
 
 
 // Página principal - Siempre muestra home.blade.php
@@ -81,17 +83,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Rutas para back (administradores)
-// Route::middleware(['auth', 'role:1'])->group(function () {
-    // Route::get('/back/home', function () {
-    //     return view('back.homeback');
-    // })->name('back.home');
+
 
     Route::get('/usuaris', function () {
         return view('back.users');
     })->name('usuaris');
 
-    // Rutas para operaciones CRUD de Users
+    
     Route::get('/users', [UserController::class, 'index']);
     Route::post('/users', [UserController::class, 'store']);
     Route::put('/users/{id}', [UserController::class, 'update']);
@@ -118,3 +116,12 @@ Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.
 
 Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
 ->name('logout');
+
+
+
+Route::post('crews/{crew}/request-membership', [UserCrewController::class, 'requestMembership'])
+    ->name('front.crews.requestMembership');
+
+// Ruta para confirmar solicitudes de membresía en el back-office
+Route::post('/back/memberships/{crew}/{user}/confirm', [MembershipController::class, 'confirm'])
+    ->name('back.memberships.confirm');
