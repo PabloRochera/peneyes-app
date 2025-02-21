@@ -40,8 +40,17 @@ class User extends Authenticatable implements MustVerifyEmail
     // Relación many-to-many con Crew
     public function crews()
     {
-        return $this->belongsToMany(Crew::class, 'users_crews')
-                    ->withPivot('year', 'confirmed')
+        return $this->belongsToMany(Crew::class, 'user_crews')
+                    ->withPivot(['year', 'confirmed'])
+                    ->withTimestamps();
+    }
+
+    // Relación many-to-many con Crew para membresías confirmadas
+    public function confirmedCrews()
+    {
+        return $this->belongsToMany(Crew::class, 'user_crews')
+                    ->withPivot(['year', 'confirmed'])
+                    ->wherePivot('confirmed', true)
                     ->withTimestamps();
     }
 }

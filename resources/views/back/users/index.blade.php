@@ -22,6 +22,7 @@
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Nombre</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Apellido</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Email</th>
+                        <th class="py-3 px-4 uppercase font-semibold text-sm">Peña</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Fecha de Nacimiento</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Acciones</th>
                     </tr>
@@ -33,6 +34,24 @@
                             <td class="py-3 px-4">{{ $user->name }}</td>
                             <td class="py-3 px-4">{{ $user->surname }}</td>
                             <td class="py-3 px-4">{{ $user->email }}</td>
+                            <td class="py-3 px-4 
+                                @if(!$user->crews->isEmpty() && !$user->crews->first()->pivot->confirmed) 
+                                    bg-green-200
+                                @endif">
+                                @if($user->crews->isEmpty())
+                                    Sin asignar
+                                @else
+                                    @php $membership = $user->crews->first(); @endphp
+                                    @if($membership->pivot->confirmed)
+                                        {{ $membership->name }}
+                                    @else
+                                        <form method="POST" action="{{ route('back.memberships.confirm', ['crew' => $membership->id, 'user' => $user->id]) }}">
+                                            @csrf
+                                            <button type="submit" class="button is-primary">Confirmar</button>
+                                        </form>
+                                    @endif
+                                @endif
+                            </td>
                             <td class="py-3 px-4">{{ $user->birthday }}</td>
                             <td class="py-3 px-4 flex space-x-4">
                                 <a href="{{ route('users.edit', $user->id) }}" class="text-blue-500 hover:text-blue-700">
@@ -70,40 +89,6 @@
             </svg>
             <span>Agregar Usuario</span>
         </a>
-
-        <!-- Solicitudes de membresía -->
-        <div class="content is-medium mt-5">
-            <h2 class="title is-4">Solicitudes de Membresía</h2>
-            @if($membershipRequests->isEmpty())
-                <p>No hay solicitudes de membresía pendientes.</p>
-            @else
-                <table class="table is-fullwidth is-striped">
-                    <thead>
-                        <tr>
-                            <th>Peña</th>
-                            <th>Año</th>
-                            <th>Usuario</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($membershipRequests as $request)
-                            <tr>
-                                <td>{{ $request->crew->name }}</td>
-                                <td>{{ $request->year }}</td>
-                                <td>{{ $request->user->name }} {{ $request->user->surname }}</td>
-                                <td>
-                                    <form method="POST" action="{{ route('back.memberships.confirm', ['crew' => $request->crew->id, 'user' => $request->user->id]) }}">
-                                        @csrf
-                                        <button type="submit" class="button is-primary">Confirmar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @endif
-        </div>
     </div>
     <script>
         document.getElementById('search').addEventListener('keyup', function() {

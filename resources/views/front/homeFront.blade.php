@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page - Penyes App</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    @viteReactRefresh
+    @vite('resources/js/index.jsx')
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -71,6 +73,9 @@
             </div>
         @endforeach
     </div>
+</section>
+<section>
+    <div id="app"></div>
 </section>
 </body>
 </html>
