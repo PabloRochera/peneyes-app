@@ -83,23 +83,23 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Definir la ruta 'front'
+Route::get('/front', [FrontController::class, 'index'])->name('front');
 
+Route::get('/usuaris', function () {
+    return view('back.users');
+})->name('usuaris');
 
-    Route::get('/usuaris', function () {
-        return view('back.users');
-    })->name('usuaris');
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'store']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
 
-    
-    Route::get('/users', [UserController::class, 'index']);
-    Route::post('/users', [UserController::class, 'store']);
-    Route::put('/users/{id}', [UserController::class, 'update']);
-    Route::delete('/users/{id}', [UserController::class, 'destroy']);
-
-    Route::prefix('back')->group(function () {
-        Route::resource('crews', CrewController::class);
-        Route::resource('users', UserController::class);
-        Route::resource('draws', DrawController::class);
-    });
+Route::prefix('back')->group(function () {
+    Route::resource('crews', CrewController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('draws', DrawController::class);
+});
 
 Route::resource('pagos', PaymentController::class);
 
@@ -113,15 +113,9 @@ Route::get('/crews', [CrewController::class, 'showCrews'])->name('crews.show');
 
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
+Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
-->name('logout');
-
-
-
-Route::post('crews/{crew}/request-membership', [UserCrewController::class, 'requestMembership'])
-    ->name('front.crews.requestMembership');
+Route::post('crews/{crew}/request-membership', [UserCrewController::class, 'requestMembership'])->name('front.crews.requestMembership');
 
 // Ruta para confirmar solicitudes de membresía en el back-office
-Route::post('/back/memberships/{crew}/{user}/confirm', [MembershipController::class, 'confirm'])
-    ->name('back.memberships.confirm');
+Route::post('/back/memberships/{crew}/{user}/confirm', [MembershipController::class, 'confirm'])->name('back.memberships.confirm');

@@ -75,7 +75,7 @@
     </div>
 </section>
 <section>
-    <div id="app"></div>
+    <div id="app">Sorteo</div>
 </section>
 </body>
 </html>

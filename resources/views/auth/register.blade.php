@@ -33,6 +33,12 @@
                     <input id="email" class="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500 text-sm" type="email" name="email" required autocomplete="email" />
                 </div>
 
+                <!-- Birthday -->
+                <div class="mb-4">
+                    <label for="birthday" class="block text-sm font-medium text-gray-700">Birthday</label>
+                    <input id="birthday" class="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-gray-500 focus:border-gray-500 text-sm" type="date" name="birthday" required autocomplete="birthday" />
+                </div>
+
                 <!-- Password -->
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>

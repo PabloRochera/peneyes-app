@@ -29,31 +29,34 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        dd('pataton');
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'birthday' => ['required', 'date'],
         ]);
-    
+
         // Crear el usuario
         $user = User::create([
             'name' => $request->name,
+            'surname' => $request->surname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'birthday' => $request->birthday,
         ]);
-    
+
         // Disparar el evento de registro
         event(new Registered($user));
-    
+
         // Iniciar sesión del usuario automáticamente
         Auth::login($user);
-    
+
         // Redirigir según la lógica deseada
         if ($user->is_admin) { // Reemplaza 'is_admin' con la lógica de tu aplicación
             return redirect()->route('dashboard'); // Redirigir al backend
         }
-    
+
         return redirect()->route('front'); // Redirigir al frontend
     }
     
