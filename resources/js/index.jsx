@@ -1,5 +1,5 @@
 import React from 'react';
-
+import ReactDOM from 'react-dom/client'; // nueva importación
 
 const IndexView = () => {
     return (
@@ -8,5 +8,8 @@ const IndexView = () => {
         </div>
     );
 };
+
+const root = ReactDOM.createRoot(document.getElementById('App')); // montar el componente
+root.render(<IndexView />);
 
 export default IndexView;

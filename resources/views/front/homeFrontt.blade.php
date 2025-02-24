@@ -93,5 +93,50 @@
     </div>
 </section>
 
+<!-- Solicitar Pago -->
+<section id="solicitar-pago" class="container mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold text-center mb-8">Solicitar Pago</h2>
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <form method="POST" action="{{ route('pagos.store') }}">
+            @csrf
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Nombre</label>
+                <input type="text" name="nombre" value="{{ Auth::user()->name ?? '' }}" class="mt-1 p-2 w-full border rounded-lg" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Monto</label>
+                <input type="number" step="0.01" name="monto" class="mt-1 p-2 w-full border rounded-lg" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Método de Pago</label>
+                <select name="metodo" class="mt-1 p-2 w-full border rounded-lg">
+                    <option value="Tarjeta">Tarjeta</option>
+                    <option value="Transferencia">Transferencia</option>
+                    <option value="Efectivo">Efectivo</option>
+                </select>
+            </div>
+            <!-- Nuevo campo para seleccionar la peña -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Peña</label>
+                <select name="crew_id" class="mt-1 p-2 w-full border rounded-lg" required>
+                    @foreach($crews as $crew)
+                        <option value="{{ $crew->id }}">{{ $crew->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Fecha de Pago</label>
+                <input type="date" name="fecha" class="mt-1 p-2 w-full border rounded-lg" required>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                Solicitar Pago
+            </button>
+        </form>
+    </div>
+</section>
+
+<section>
+    <div id="App"></div>
+</section>
 </body>
 </html>

@@ -24,6 +24,7 @@
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Email</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Peña</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Fecha de Nacimiento</th>
+                        <th class="py-3 px-4 uppercase font-semibold text-sm">Estado</th>
                         <th class="py-3 px-4 uppercase font-semibold text-sm">Acciones</th>
                     </tr>
                 </thead>
@@ -45,6 +46,18 @@
                                 @endif
                             </td>
                             <td class="py-3 px-4">{{ $user->birthday }}</td>
+                            <td class="py-3 px-4">
+                                @if($user->crews->isEmpty())
+                                    Sin solicitudes
+                                @else
+                                    @php $membership = $user->crews->first(); @endphp
+                                    @if($membership->pivot->confirmed)
+                                        Confirmada
+                                    @else
+                                        Solicitud pendiente
+                                    @endif
+                                @endif
+                            </td>
                             <td class="py-3 px-4 flex space-x-4">
                                 <a href="{{ route('users.edit', $user->id) }}" class="text-blue-500 hover:text-blue-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20">
@@ -65,6 +78,17 @@
                                         </svg>
                                     </button>
                                 </form>
+                                @if(!$user->crews->isEmpty())
+                                    @php $membership = $user->crews->first(); @endphp
+                                    @if(!$membership->pivot->confirmed)
+                                        <form action="{{ route('back.memberships.confirm', ['crew' => $membership->id, 'user' => $user->id]) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded-lg hover:bg-green-600">
+                                                Confirmar Membresía
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endif
                             </td>
                         </tr>
                     @endforeach
