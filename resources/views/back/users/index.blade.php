@@ -34,22 +34,14 @@
                             <td class="py-3 px-4">{{ $user->name }}</td>
                             <td class="py-3 px-4">{{ $user->surname }}</td>
                             <td class="py-3 px-4">{{ $user->email }}</td>
-                            <td class="py-3 px-4 
-                                @if(!$user->crews->isEmpty() && !$user->crews->first()->pivot->confirmed) 
-                                    bg-green-200
-                                @endif">
+                            <td class="py-3 px-4">
                                 @if($user->crews->isEmpty())
                                     Sin asignar
                                 @else
                                     @php $membership = $user->crews->first(); @endphp
-                                    @if($membership->pivot->confirmed)
+                                    <a href="{{ route('crews.index') }}" class="text-blue-500 hover:text-blue-700">
                                         {{ $membership->name }}
-                                    @else
-                                        <form method="POST" action="{{ route('back.memberships.confirm', ['crew' => $membership->id, 'user' => $user->id]) }}">
-                                            @csrf
-                                            <button type="submit" class="button is-primary">Confirmar</button>
-                                        </form>
-                                    @endif
+                                    </a>
                                 @endif
                             </td>
                             <td class="py-3 px-4">{{ $user->birthday }}</td>

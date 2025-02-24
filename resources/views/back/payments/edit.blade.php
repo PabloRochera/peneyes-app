@@ -1,4 +1,4 @@
-.php
+
 @include('back.partials.head-back')
 @include('back.partials.header-back')
 

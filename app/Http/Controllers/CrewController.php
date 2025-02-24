@@ -52,7 +52,7 @@ class CrewController extends Controller
     public function showCrews()
     {
         $crews = Crew::all();
-        return view('front.crews.show', compact('crews'));
+        return view('front.crews.index', compact('crews'));
     }
     
     // Eliminar un crew

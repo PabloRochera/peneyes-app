@@ -81,6 +81,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Nueva ruta para el monedero
+    Route::get('/wallet', [App\Http\Controllers\WalletController::class, 'index'])->name('wallet');
+    Route::post('/wallet/update', [App\Http\Controllers\WalletController::class, 'updateBalance'])->name('wallet.update');
 });
 
 // Definir la ruta 'front'
@@ -119,3 +123,6 @@ Route::post('crews/{crew}/request-membership', [UserCrewController::class, 'requ
 
 // Ruta para confirmar solicitudes de membresía en el back-office
 Route::post('/back/memberships/{crew}/{user}/confirm', [MembershipController::class, 'confirm'])->name('back.memberships.confirm');
+
+// Ruta para consumir el sorteo en el front-end
+Route::get('/api/draw', [DrawController::class, 'apiDraw'])->name('draw.api');

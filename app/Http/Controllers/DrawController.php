@@ -105,4 +105,12 @@ class DrawController extends Controller
         }
         return true;
     }
+
+    // Nuevo método para la API de sorteo (retorna JSON)
+    public function apiDraw()
+    {
+        $year = now()->year;
+        $locations = Location::where('year', $year)->with('crew')->get();
+        return response()->json($locations);
+    }
 }
