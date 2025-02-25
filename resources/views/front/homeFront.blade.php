@@ -43,6 +43,7 @@
         </form>
     </div>
 </nav>
+
 <header class="relative bg-blue-900 text-white">
     <div class="relative w-full h-[600px] overflow-hidden" style="background-image: url('{{ asset('/pagehome.png') }}');">
         
@@ -56,21 +57,72 @@
     </div>
 </header>
 
-<!-- Llista de Penyes -->
-<section id="llista-penyes" class="container mx-auto px-6 py-16">
-    <h2 class="text-3xl font-bold text-center mb-8">Llista de Penyes</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach($crews as $crew)
-            <div class="relative bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group">
-                <h3 class="text-xl font-semibold mb-2">{{ $crew->name }}</h3>
-                <p class="text-gray-700">{{ $crew->slogan }}</p>
-                <p class="text-gray-500 text-sm mt-2">Capacidad: {{ $crew->capacity }}</p>
-                <p class="text-gray-500 text-sm">Fundación: {{ $crew->foundation }}</p>
-                <div class="absolute inset-0 bg-blue-700 bg-opacity-75 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    @if(Auth::check() && $crew->users->contains(Auth::user()))
-                        @php $membership = $crew->users->firstWhere('id', Auth::user()->id); @endphp
-                        @if($membership->pivot->confirmed)
-                            <span class="text-white font-bold">¡Has sido aceptado en la peña!</span>
+@if(!is_null($relatedCrew))
+
+<section>
+    <div id="App"></div>
+</section>
+
+<!-- Solicitar Pago -->
+<section id="solicitar-pago" class="container mx-auto px-6 py-16">
+<section id="solicitar-pago" class="container mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold text-center mb-8">Solicitar Pago Anual</h2>
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <form method="POST" action="{{ route('pagos.store') }}">
+            @csrf
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Nombre</label>
+                <input type="text" name="nombre" value="{{ Auth::user()->name ?? '' }}" class="mt-1 p-2 w-full border rounded-lg" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Monto</label>
+                <input type="number" step="0.01" name="monto" class="mt-1 p-2 w-full border rounded-lg" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Método de Pago</label>
+                <select name="metodo" class="mt-1 p-2 w-full border rounded-lg">
+                    <option value="Tarjeta">Tarjeta</option>
+                    <option value="Transferencia">Transferencia</option>
+                    <option value="Efectivo">Efectivo</option>
+                </select>
+            </div>
+        
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Fecha de Pago</label>
+                <input type="date" name="fecha" class="mt-1 p-2 w-full border rounded-lg" required>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                Solicitar Pago
+            </button>
+        </form>
+    </div>
+</section>
+
+
+@else
+    <!-- Llista de Penyes -->
+    <section id="llista-penyes" class="container mx-auto px-6 py-16">
+        <h2 class="text-3xl font-bold text-center mb-8">Llista de Penyes</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($crews as $crew)
+                <div class="relative bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 group">
+                    <h3 class="text-xl font-semibold mb-2">{{ $crew->name }}</h3>
+                    <p class="text-gray-700">{{ $crew->slogan }}</p>
+                    <p class="text-gray-500 text-sm mt-2">Capacidad: {{ $crew->capacity }}</p>
+                    <p class="text-gray-500 text-sm">Fundación: {{ $crew->foundation }}</p>
+                    <div class="absolute inset-0 bg-blue-700 bg-opacity-75 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        @if(Auth::check() && $crew->users->contains(Auth::user()))
+                            @php $membership = $crew->users->firstWhere('id', Auth::user()->id); @endphp
+                            @if($membership->pivot->confirmed)
+                                <span class="text-white font-bold">¡Has sido aceptado en la peña!</span>
+                            @else
+                                <form method="POST" action="{{ route('front.crews.requestMembership', $crew) }}">
+                                    @csrf
+                                    <button type="submit" class="bg-white text-blue-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
+                                        Solicitar Membresia
+                                    </button>
+                                </form>
+                            @endif
                         @else
                             <form method="POST" action="{{ route('front.crews.requestMembership', $crew) }}">
                                 @csrf
@@ -79,19 +131,11 @@
                                 </button>
                             </form>
                         @endif
-                    @else
-                        <form method="POST" action="{{ route('front.crews.requestMembership', $crew) }}">
-                            @csrf
-                            <button type="submit" class="bg-white text-blue-700 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
-                                Solicitar Membresia
-                            </button>
-                        </form>
-                    @endif
+                    </div>
                 </div>
-            </div>
-        @endforeach
-    </div>
-</section>
-
+            @endforeach
+        </div>
+    </section>
+@endif
 </body>
 </html>
